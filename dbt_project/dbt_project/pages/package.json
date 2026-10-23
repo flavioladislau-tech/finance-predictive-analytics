@@ -1,0 +1,11 @@
+{
+  "name": "meu-bi-preditivo",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "evidence build"
+  },
+  "dependencies": {
+    "@evidence-dev/evidence": "latest",
+    "@evidence-dev/duckdb": "latest"
+  }
+}
