@@ -1,0 +1,16 @@
+name: 'meu_projeto_bi'
+version: '1.0.0'
+config-version: 2
+
+profile: 'meu_projeto_bi'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+models:
+  meu_projeto_bi:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
