@@ -1,0 +1,7 @@
+meu_projeto_bi:
+  outputs:
+    dev:
+      type: duckdb
+      path: '../dados_analytics.db'
+      threads: 4
+  target: dev
