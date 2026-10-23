@@ -1,0 +1,51 @@
+name: Executar Pipeline de BI Completo
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  rodar-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Dependências de Dados
+        run: |
+          pip install pandas duckdb dbt-duckdb
+
+      - name: Rodar Modelagem do dbt
+        run: |
+          cd dbt_project
+          dbt run --profiles-dir .
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar e Compilar o Painel (Evidence)
+        run: |
+          cd pages
+          npm install
+          npx @evidence-dev/evidence build
+
+      - name: Upload do Artefato do GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./pages/.evidence/template/build
+
+      - name: Deploy para o GitHub Pages
+        uses: actions/deploy-pages@v4
